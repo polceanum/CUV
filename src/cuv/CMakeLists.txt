@@ -31,6 +31,7 @@ set(CUV_SRC
     libs/nlmeans/nlmeans.cu
     libs/rbm/rbm.cu
     libs/kmeans/kmeans.cu
+    libs/caffe/caffe.cu
     convert/convert.cu
     basics/cuda_array.cu
     basics/reference.cu
@@ -52,7 +53,7 @@ ENDIF(CUV_CIMG_BINDINGS)
 
 find_package (PythonLibs 2.7 REQUIRED)
 if (PYTHONLIBS_FOUND )
-    SET(CUV_SRC ${CUV_SRC} libs/theano_ops/theano_ops.cu)
+    #SET(CUV_SRC ${CUV_SRC} libs/theano_ops/theano_ops.cu)
     include_directories(${PYTHON_INCLUDE_DIRS} )
 endif(PYTHONLIBS_FOUND )
 
@@ -65,7 +66,8 @@ set_target_properties( "cuv${LIB_SUFFIX}" PROPERTIES VERSION ${CPACK_PACKAGE_VER
 SET(CUV_LIBRARIES  tp_cudaconv2${LIB_SUFFIX} ${CUDA_LIBRARIES} ${CUDA_CUT_LIBRARY} ${BLAS_LIBRARIES})
 
 if (PYTHONLIBS_FOUND )
-    SET(CUV_LIBRARIES  ${CUV_LIBRARIES} tp_theano${LIB_SUFFIX} ${PYTHON_LIBRARIES})
+    #SET(CUV_LIBRARIES  ${CUV_LIBRARIES} tp_theano${LIB_SUFFIX} ${PYTHON_LIBRARIES})
+    SET(CUV_LIBRARIES  ${CUV_LIBRARIES} ${PYTHON_LIBRARIES})
 endif(PYTHONLIBS_FOUND )
 
 
