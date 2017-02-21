@@ -154,6 +154,17 @@ namespace cuv{
         }
         /** @} */ // blas1
 
+        /**
+         * @overload
+         *
+         * casting column major to row major since working on linear memory anyway.
+         */
+        template<class __value_type, class __memory_space_type>
+	void learn_step_weight_decay_momentum(tensor<__value_type,__memory_space_type, column_major>& W, tensor<__value_type,__memory_space_type, column_major>& momentum, const tensor<__value_type,__memory_space_type, column_major>& dW, const float& learnrate, const float& momentum_weight=0.9, const float& decay = 0.0f, const float& sparsedecay=0.0f){
+            typedef tensor<__value_type, __memory_space_type> rm_tensor;
+            learn_step_weight_decay_momentum(*reinterpret_cast<rm_tensor*>(&W),*reinterpret_cast<rm_tensor*>(&momentum),*reinterpret_cast<const rm_tensor*>(&dW),learnrate,momentum_weight,decay,sparsedecay);
+        }
+        /** @} */ // blas1
 }
 
 

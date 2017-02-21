@@ -36,6 +36,8 @@
 
 #include <cuv/basics/dia_matrix.hpp>
 
+#include <memory>
+
 namespace cuv{
 
 
@@ -141,20 +143,20 @@ void transpose(tensor<V,M, L>& dst, const tensor<V,M, L>& src);
   template<class V, class T, class M>
   cuv::tensor<V,T,typename other_memory_layout<M>::type > * transposed_view_p(cuv::tensor<V,T,M>&  src);
 
-  /// As in @see transposed_view_p, but here we return an auto_ptr for convenience
+  /// As in @see transposed_view_p, but here we return an unique_ptr for convenience
   template<class V, class T, class M>
-  std::auto_ptr<cuv::tensor<V,T,typename other_memory_layout<M>::type > > transposed_view(cuv::tensor<V,T,M>&  src){
-	return std::auto_ptr<cuv::tensor<V,T,typename other_memory_layout<M>::type > >(transposed_view_p(src));
+  std::unique_ptr<cuv::tensor<V,T,typename other_memory_layout<M>::type > > transposed_view(cuv::tensor<V,T,M>&  src){
+	return std::unique_ptr<cuv::tensor<V,T,typename other_memory_layout<M>::type > >(transposed_view_p(src));
   }
         
   /// Const variant of @see transposed_view_p
   template<class V, class T, class M>
   const cuv::tensor<V,T,typename other_memory_layout<M>::type > * transposed_view_p(const cuv::tensor<V,T,M>&  src);
 
-  /// As in @see transposed_view_p, but here we return an auto_ptr for convenience
+  /// As in @see transposed_view_p, but here we return an unique_ptr for convenience
   template<class V, class T, class M>
-  std::auto_ptr<const cuv::tensor<V,T,typename other_memory_layout<M>::type > > transposed_view(const cuv::tensor<V,T,M>&  src){
-	return std::auto_ptr<const cuv::tensor<V,T,typename other_memory_layout<M>::type > >(transposed_view_p(src));
+  std::unique_ptr<const cuv::tensor<V,T,typename other_memory_layout<M>::type > > transposed_view(const cuv::tensor<V,T,M>&  src){
+	return std::unique_ptr<const cuv::tensor<V,T,typename other_memory_layout<M>::type > >(transposed_view_p(src));
   }
 
   /** @} */ // end group blas3

@@ -7,6 +7,10 @@ IF(CUV_PYTHON_BINDINGS)
 	SET(CMAKE_CXX_FLAGS "-fPIC") # for FindCUDA, needed for python shared lib
 ENDIF(CUV_PYTHON_BINDINGS)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -std=c++11")
+
+add_definitions(-DBOOST_ALL_NO_LIB -DBOOST_ALL_DYN_LINK -DBOOST_LOG_DYN_LINK)
+
 SET (CUDA_SDK_ROOT_DIR "/usr/local/cuda/C" CACHE STRING "Location of CUDA SDK (currently not used) ") 
 
 FIND_PACKAGE(CUDA)
@@ -22,7 +26,8 @@ if (CUDA_ENFORCE_HOST_COMPILER)
 endif()
 
 if ( NOT CUDA_ARCH )
-    SET( CUDA_ARCH -gencode;arch=compute_13,code=sm_13;-gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35  CACHE STRING "Device architectures")
+    SET( CUDA_ARCH -gencode;arch=compute_30,code=sm_30  CACHE STRING "Device architectures")
+    #SET( CUDA_ARCH -gencode;arch=compute_13,code=sm_13;-gencode;arch=compute_20,code=sm_20;-gencode;arch=compute_30,code=sm_30;-gencode;arch=compute_35,code=sm_35  CACHE STRING "Device architectures")
     #SET( CUDA_ARCH -gencode;arch=compute_20,code=\"sm_20,compute_20\";-gencode;arch=compute_30,code=\"sm_30,compute_30\";-gencode;arch=compute_35,code=\"sm_35,compute_35\" )
 endif()
 
@@ -46,7 +51,7 @@ ENDIF(NOT THRUST_PATH)
 add_definitions(-DRANDOM_PATH=${CMAKE_BINARY_DIR})
 #add_definitions(-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION)
 SET(CUDA_ARCHITECTURE "" CACHE STRING "The CUDA architecture to compile for, i.e. -arch=sm_20")
-SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS};${CUDA_ARCHITECTURE}")
+SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS};${CUDA_ARCHITECTURE};-std=c++11")
 MESSAGE(STATUS "CUDA_NVCC_FLAGS: ${CUDA_NVCC_FLAGS}")
 
 CUDA_INCLUDE_DIRECTORIES( ${CUDA_SDK_ROOT_DIR}/common/inc ${CMAKE_CURRENT_SOURCE_DIR}  tools )
